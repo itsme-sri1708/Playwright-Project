@@ -523,7 +523,237 @@ console.log(result);
 
 
 *******************************************
+SRC
+fixtures.ts
 
+import { test as baseTest, Page } from '@playwright/test'
+import { LoginPage } from '../pages/logic'
+
+type LoginFixtures = {
+    pageWithLogin: Page
+}
+
+export const test = baseTest.extend<LoginFixtures>({
+    pageWithLogin: async ({ page }, use) => {
+        const loginpage = new LoginPage(page)
+        loginpage.userlogin()
+        use(page)
+    }
+})
+
+
+
+.env
+
+BASE_URL=https://testcms.reco-claims.ca
+USER_NAME=info+programmanager@xlgclaims.com
+PASSWORD=Test1234!
+
+constants
+
+export const claimsPageHeader =
+ ['Claim #', 'Address' , 'Insureds' , 'Claimants', 'Brokerage 1', 'File Handler', 'Defence Counsel']
+
+
+
+pages: claims.tsimport { Page, expect } from "@playwright/test";
+import { CommonPage } from "./common";
+
+export class ClaimsPage extends CommonPage {
+    constructor(page: Page) {
+        super(page)
+
+    }
+
+    async verifyclaimsHeader(headers: string[]) {
+        await this.page.locator('rzi-circle-o-notch').waitFor({ state: 'detached', timeout: 60000 })
+        for (const header of headers) {
+            await expect(this.page.locator('thead th').getByText(header)).toBeVisible()
+
+        }
+
+    }
+}
+
+
+common.ts
+import { expect, Page } from "@playwright/test";
+import { LoginPage } from "./logic";
+import { genricUtils } from "../utils/genricutils";
+
+export class CommonPage extends genricUtils {
+    page: Page
+    constructor(page: Page) {
+        super(page)
+        this.page = page
+    }
+
+    async navigateViaDashboard(parentMenu: string, childMenu?: string) {
+        await this.page.getByText(parentMenu, { exact: true }).waitFor({ state: 'visible', timeout: 60000 })
+        await this.page.getByText(parentMenu, { exact: true }).click()
+        // await this.page.getByText('Administrator', { exact: true }).waitFor({ state: 'visible', timeout: 60000 })
+        // await this.page.getByText('Administrator', { exact: true }).click()
+        if (childMenu) {
+            await this.page.getByRole('link', { name: childMenu }).waitFor({ state: 'visible', timeout: 60000 })
+            await this.page.getByRole('link', { name: childMenu }).click()
+            // await this.page.getByRole('link', { name: 'Roles' }).waitFor({ state: 'visible', timeout: 60000 })
+            // await this.page.getByRole('link', { name: 'Roles' }).click()
+        }
+
+
+    }
+
+    async rondomNumberGenerator() {
+        const randomnum = await Math.floor(Math.random() * 10000)
+        return (randomnum)
+
+    }
+}
+
+
+logic.ts
+import { Page } from "playwright"
+import { expect, Locator } from '@playwright/test'
+import { genricUtils } from "../utils/genricutils"
+
+export class LoginPage extends genricUtils {
+    page: Page
+    userNameLocator: Locator
+    baseUrl: string
+    userName: string
+    password: string
+    constructor(page: Page) {
+        super(page)
+        this.page = page
+        this.userNameLocator = this.page.getByRole('textbox', { name: 'Username' })
+        this.baseUrl = process.env.BASE_URL || ''
+        this.userName = process.env.USER_NAME || ''
+        this.password = process.env.PASSWORD || ''
+    }
+
+    async userlogin() {
+        await this.page.goto(`${this.baseUrl}/Login`)
+        await this.userNameLocator.fill(this.userName)
+        await this.page.getByRole('textbox', { name: 'Password' }).fill(this.password)
+        await this.page.getByRole('button', { name: 'Login' }).click()
+        //await this.page.locator('[class="rz-menu rz-profile-menu"]').waitFor({ state: 'visible', timeout: 60000 })
+        await this.elementsVisible(this.page.locator('[class="rz-menu rz-profile-menu"]'), 60000)
+        await expect(this.page.locator('[class="rz-menu rz-profile-menu"]')).toBeVisible()
+    }
+
+}
+
+
+
+roles.ts
+import { Page } from "playwright";
+import { CommonPage } from "./common";
+import { expect, Locator } from "@playwright/test";
+
+export class RolesPage extends CommonPage {
+    inputBox: Locator
+    saveButton: Locator
+    cancelButton: Locator
+    constructor(page: Page) {
+        super(page)
+        this.page = page
+        this.inputBox = this.page.locator('input[name="Name"]')
+        this.saveButton = this.page.getByRole('button', { name: 'Save' })
+        this.cancelButton = this.page.getByRole('button', { name: 'Cancel' })
+    }
+
+    async verifyAddApplication() {
+        //await this.page.getByRole('heading', { name: 'Roles' }).waitFor({ state: 'visible', timeout: 100000 })
+        await this.elementsVisible(this.page.getByRole('heading', { name: 'Roles' }), 60000)
+        await expect(this.page.getByRole('heading', { name: 'Roles' })).toBeVisible()
+
+        await this.page.getByRole('button', { name: 'add_circle_outline Add' }).click()
+
+        await this.page.getByText('Add Application Role').waitFor({ state: 'visible', timeout: 60000 })
+        await expect(this.page.getByText('Add Application Role')).toBeVisible()
+
+        await expect(this.inputBox).toBeVisible()
+        await expect(this.saveButton).toBeVisible()
+        await expect(this.cancelButton).toBeVisible()
+
+    }
+
+    async createNewRole() {
+        const num = await this.rondomNumberGenerator()
+        await this.inputBox.fill(`Test_${num}`)
+        await this.saveButton.click()
+    }
+
+}
+
+
+user.ts
+import { Page } from "@playwright/test";
+import { CommonPage } from "./common";
+import { expect } from "@playwright/test";
+import { RolesPage } from "../pages/roles";
+
+export class usersPage extends CommonPage {
+    page: Page
+    constructor(page: Page) {
+        super(page)
+        this.page = page
+    }
+
+    async validateErrorMessage() {
+
+        await this.elementsVisible(this.page.getByRole('heading', { name: 'Users' }), 6000)
+        //await this.page.getByRole('heading', { name: 'Users' }).waitFor({state:'visible', timeout:60000})
+        await expect(this.page.getByRole('heading', { name: 'Users' })).toBeVisible()
+        await this.page.getByText('Add', { exact: true }).click()
+        await this.page.getByText('Add Application User', { exact: true }).waitFor({ state: 'visible', timeout: 60000 })
+        await expect(this.page.getByText('Add Application User', { exact: true })).toBeVisible()
+        await this.page.getByText('Save', { exact: true }).click()
+        await expect(this.page.getByText('Confirm Password is required', { exact: true })).toBeVisible()
+    }
+    async usercreation() {
+        await this.elementsVisible(this.page.getByRole('heading', { name: 'Users' }), 6000)
+        await this.page.getByText('Add', { exact: true }).click()
+        await this.page.locator('input[name="Email"]').fill('Test@1234.com')
+        await this.page.locator('[class="rz-dropdown valid rz-state-empty"]').click()
+        await this.page.locator('[class="rz-dropdown-items rz-dropdown-list"]').last().waitFor({ state: 'visible', timeout: 60000 })
+        await this.page.locator('input[name="Password"]').fill('Test11111')
+        await this.page.locator('input[name="ConfirmPassword"]').fill('Test11111')
+        await this.page.getByText('Save', { exact: true }).click()
+
+    }
+
+
+}
+
+
+utils/genricutils
+import { expect, Locator, Page } from "@playwright/test";
+
+export class genricUtils {
+    page: Page
+    constructor(page: Page) {
+        this.page = page
+
+    }
+
+    async elementsVisible(locator: Locator, timeout: number) {
+        await locator.waitFor({ state: 'visible', timeout: 60000 })
+    }
+
+    async click(locator: Locator) {
+        await locator.click()
+    }
+
+    async waitForApiresponse(url: string, time: number) {
+        await this.page.waitForResponse(response => response.url().includes(url) && response.status() === 200, { timeout: time })
+    }
+
+    async elementIsVisible(locator: Locator) {
+        await expect(locator).toBeVisible()
+
+    }
+}
 *******************************************
 
 
