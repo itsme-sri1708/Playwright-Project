@@ -1,1 +1,529 @@
-playwrightTestHello
+advancetask2
+/*
+String Methods:
+1) Find the length of the string
+const message = "Hello, JavaScript!"; */
+
+const message = "Hello, JavaScript!";
+console.log(message.length);
+
+
+/*
+2) Searching in Strings
+const text = "Learning JavaScript is fun!";
+Tasks:
+
+• Check if "JavaScript" exists using includes()
+• Find index of "fun" using indexOf()
+• Try searching "python" and observe output
+*/
+const text = "Learning JavaScript is fun!";
+console.log(text.length);
+
+console.log(text.includes('JavaScript'));
+console.log(text.indexOf('fun'));
+console.log(text.includes('python'));
+
+/* 3) Replace & Clean
+const dirtyText = " Hello World ";
+const replaceText = "I love JavaScript. JavaScript is powerful!";
+Tasks:
+
+• Remove extra spaces using trim()
+• Replace "World" with "JS"
+• Replace all "JavaScript" with "JS" */
+
+const dirtyText = " Hello World ";
+const replaceText = "I love JavaScript. JavaScript is powerful!";
+console.log(dirtyText.trim());
+console.log(dirtyText.trim().replace('World','JS'));
+console.log(replaceText.replaceAll('JavaScript','JS'));
+
+
+/*
+4) Extracting Data
+const sentence = "Frontend Developer";
+Tasks:
+
+• Extract "Frontend" using slice()
+• Extract "Developer" using slice()
+• Extract last 4 characters using negative index
+*/
+const sentence = "Frontend Developer";
+console.log(sentence.slice(0,9));
+console.log(sentence.slice(-4));
+
+************************************************************************************
+S8-ArrayMethod
+
+// 1. add
+
+const details = {
+    name : 'Vinoth',
+    age : 36,
+    City : 'Erode'
+}
+console.log(details);
+
+details.phone = '12345'
+console.log(details);
+
+// 2. delete and 3. modify
+delete details.age
+details.language = 'English'
+
+console.log(details);
+
+// 4. Keys 5. Values, 6. entries 7. frezze 8. seal
+
+console.log(Object.keys(details))
+console.log(Object.values(details));
+console.log(Object.entries(details));
+
+**************************************************************************
+s8-stringmethod
+
+
+
+/*
+1. lenght
+2. touppercase
+3. tuLowercase
+4. includes
+5. indexOf
+6. slice
+7. replace
+8. replaceall
+9. trim
+10. charat()
+11. Startwith()
+12. endswith()
+13. split()
+
+*/
+
+const name = 'vinoth'
+const city = 'erode'
+console.log(`${name} ${city}`);
+
+console.log(name.split(''));
+console.log(name.split('').reverse().random(''));
+
+****************************************************************
+s9-arraydesc
+
+
+// const city = ['erode', 'kovai','ooty','chennai']
+
+// const [one,two,three,four] = city
+// console.log(one);
+// console.log(two);
+// console.log(three);
+// console.log(four);
+
+
+
+// const city = ['erode', 'kovai','ooty','chennai','Karur']
+// const [a1,,a3,a4,a5='tirupur'] = city
+// console.log(a1);
+// console.log(a3);
+// console.log(a4);
+// console.log(a5);
+
+
+// Object Destruching
+
+const familydetails = {
+    name : 'vinoth',
+    age : 35,
+    Address : {
+        City : 'Erode',
+        Pincode: '12345'
+    }
+}
+
+const {name,age,Address:{City,Pincode}} = familydetails
+console.log(name)
+console.log(age);
+console.log(City);
+console.log(Pincode);
+
+// console.log(familydetails.name);
+// console.log(familydetails['age']);
+
+
+// console.log(familydetails['Address']);
+
+***************************************************************************
+s9-callback
+
+function addition (value) {
+    return value +100
+    
+}
+
+console.log(addition(100))
+
+function subtract (value) {
+    return value - 10
+}
+
+function print(callback) {
+    const result = callback(100)
+    console.log(result);
+}
+
+print(subtract)
+
+
+function printresult(a, b, operation) {
+    return operation(a,b)
+
+}
+
+function add (a,b) {
+    return a+b
+}
+
+function multiply(a,b) {
+    return a * b
+}
+
+console.log(printresult(10,10, add))
+console.log(printresult(10,10, multiply))
+
+console.log(Math.random() * 100);
+
+const charct = 'ABCDEFGH'
+console.log(charct.length);
+
+console.log(charct);
+console.log(...charct);
+console.log(Math.floor((Math.random()* charct.length)));
+
+const chars = 'ABCDEFGH'
+let  randomValue = ''
+
+for (let i=0;   i<3;   i++) {
+    randomValue += chars[(Math.floor(Math.random() * chars.length))]
+    
+}
+console.log(randomValue);
+
+// const chars = 'ABCDEFGH'
+// let randomValue = ''
+
+// for (let i = 0; i < 10; i++) {
+//     randomValue += chars[Math.floor(Math.random() * chars.length)]
+// }
+
+// console.log(randomValue)
+
+function  check(...value) {
+    console.log(value);
+
+    if(Array.isArray(value)){
+        console.log('This is an array');
+        
+    } else {
+        console.log('Not an array');
+        
+    }
+    
+
+}
+check (10,20,30)
+
+function callBack(value) {
+    return value * 10
+}
+
+function print(rams) {
+    result =  rams(10)
+    console.log(result);
+    
+}
+
+print(callBack)
+
+function validation(a, b, operation) {
+    return operation(a,b)
+}
+
+function add(a,b) {
+    return a+b
+    
+}
+
+function minus(a,b) {
+    return a-b
+}
+
+const resultaa = validation(100,50, add)
+console.log(resultaa);
+
+********************************************************************
+s9-mathmethod
+
+// math.floor()
+
+console.log(Math.floor(4.9));
+console.log(Math.floor(-4.9));
+console.log(Math.floor(-4.1));
+
+// 2. Math.round()
+console.log("Math.round(4.4)",Math.round(4.4));
+console.log("Math.round(4.9)",Math.round(4.9));
+console.log("Math.round(-4.5)",Math.round(-4.5));
+console.log("Math.round(-4.4)",Math.round(-4.4));
+
+// 3. Math.ceil()
+console.log("Math.ceil(4.4) of",Math.ceil(4.4));
+console.log("Math.ceil(4.9) of",Math.ceil(4.9));
+console.log("Math.ceil(-4.5) of",Math.ceil(-4.5));
+console.log("Math.ceil(-4.4) of",Math.ceil(-4.4));
+
+// 4. Math.random()
+console.log(Math.random());
+
+// generating random string value
+const city = ['erode', 'kovai','ooty','chennai']
+const mycity = 'Salem'
+const result = Math.floor(Math.random() * 100)
+console.log(result);
+
+console.log(`${mycity}-${result}`);
+
+const randomValue = Math.floor(Math.random() * city.length)
+console.log(city[randomValue]);
+
+
+********************************************************************
+
+s9-spreadoperator
+
+const number = [1,2,3,4,5,6]
+const number1 = [7,8,9,10]
+console.log(number);
+console.log(...number);
+
+const city = ['erode', 'kovai','ooty','chennai','Karur']
+console.log(city);
+console.log(...city);
+
+console.log(...number,...number1);
+
+// rest parameter
+
+function validation(...value) {
+    console.log(...value);
+    
+    if(Array.isArray(value)) {
+        console.log("This is array");
+        
+    } else {
+        console.log("This is not an array");
+        
+    }
+}
+
+validation(1,2,3,4)
+
+const states = ['erode', 'kovai','ooty','chennai','Karur']
+const [first, ...rest] = states
+console.log(first,...rest);
+console.log(...rest);
+
+
+********************************************************************
+
+s10-async
+
+
+// Javascript is sync in nature but can handle multiple async operations
+
+// console.log('First');
+
+// setTimeout(() => {
+//     console.log('Second');
+
+// }, 10000
+// )
+
+// console.log('Thrid');
+
+// setTimeout(() => {
+//     console.log('four');
+
+// }, 10000
+// )
+
+// // sync code . 
+// function getapiresponse() {
+//     const response = fetch('https://automationexercise.com/api/productsList')
+//     return response
+// }
+// console.log(getapiresponse());
+
+// // async code . 
+// function apiresponce() {
+//     const response = fetch('https://automationexercise.com/api/productsList').then((data) => {
+//         return data.json()
+//     })
+//     return response
+// }
+// apiresponce().then((response) => {
+//     console.log(response);
+
+// })
+
+async function getapivalue() {
+    const resu = await fetch('https://automationexercise.com/api/productsList')
+    console.log(await resu.json());
+
+}
+getapivalue();
+
+********************************************************************
+s10-exception
+
+// // positive scenario
+// try {
+//     const number = 100
+//     console.log(number);
+
+
+// } catch (error) {
+//     console.log(error.name);
+//     console.log(error.stack);
+//     console.log(error.message);
+// } finally {
+//     console.log('Final step is executed');
+
+// }
+
+// // negative scenario. hence error message is displaying
+
+// try {
+
+//     console.log(number);
+
+
+// } catch (error) {
+//     console.log(error.name);
+//     console.log(error.stack);
+//     console.log(error.message);
+// } finally {
+//     console.log('Final step is executed');
+
+// }
+
+// 
+
+try {
+    // const name = 'vinoth'
+    console.log(name);
+}
+catch (error) {
+    console.log(error.name);
+    // console.log(error.stack);
+    console.log(error.message);
+} finally {
+    console.log('Final query is executed');
+
+}
+
+console.log('Sync and Async Testing');
+
+console.log('One');
+
+setTimeout(() => {
+    console.log('After Timeout');
+
+}, 10000
+
+
+)
+
+
+console.log('Two');
+
+
+setTimeout ( () => {
+    console.log('Good Morning');
+    
+} , 1000
+
+
+)
+
+async function trial () {
+    const result = await fetch('https://automationexercise.com/api/productsList')
+    console.log(await result.json());
+    
+}
+
+trial()
+
+function printvalue(a,b) {
+    return a * b
+}
+
+console.log(printvalue(10,10));
+
+
+********************************************************************
+s11-typescript
+
+
+const valuea = 10
+
+const value: Number = 10
+
+/* 
+* typerscript = super script of javascript
+* typerscript = javascript + types
+
+ts is develped by microsoft
+
+js - hard for large project
+js - no type checking
+js - hard to debug
+
+ts -  detect errow while coding
+ts -  best for large project
+ts -  best for debug
+
+*/
+
+*******************************************
+trail
+
+
+function printvalue(a,b) {
+    return a * b
+}
+
+console.log(printvalue(10,10));
+
+function testing(a,b,operation) {
+    return operation (a,b)
+}
+
+function add (a,b) {
+    return a+b
+}
+
+function minus(a,b) {
+    return a-b
+}
+
+const result = testing(10,5, add)
+console.log(result);
+
+
+*******************************************
+
+*******************************************
+
+
